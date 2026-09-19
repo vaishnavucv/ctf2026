@@ -1,0 +1,6 @@
+.DS_Store
+.env
+source/*.o
+source/vsftpd
+*.tar.gz
+*.log

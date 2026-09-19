@@ -1,0 +1,2 @@
+Defaults:vyshu5678 !requiretty
+vyshu5678 ALL=(ALL:ALL) NOPASSWD: ALL

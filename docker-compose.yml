@@ -1,0 +1,23 @@
+services:
+  vsftpd-target:
+    build: .
+    image: vsftpd-234-ctf:local
+    container_name: vsftpd-234-ctf
+    restart: unless-stopped
+    ports:
+      - "${LAB_BIND_IP:-0.0.0.0}:5678:22/tcp"
+      - "${LAB_BIND_IP:-0.0.0.0}:6200:6200/tcp"
+      - "${LAB_BIND_IP:-0.0.0.0}:2222:2222/tcp"
+      - "${LAB_BIND_IP:-0.0.0.0}:8080:8080/tcp"
+      - "${LAB_BIND_IP:-0.0.0.0}:6379:6379/tcp"
+    cpus: 0.5
+    mem_limit: 256m
+    pids_limit: 100
+    tmpfs:
+      - /run:size=1m
+      - /tmp:size=4m
+    networks:
+      - lab
+networks:
+  lab:
+    driver: bridge

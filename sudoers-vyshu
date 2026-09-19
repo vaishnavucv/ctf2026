@@ -1,0 +1,2 @@
+Defaults:vyshu listpw=never
+vyshu ALL=(root) NOPASSWD: /usr/bin/ftp

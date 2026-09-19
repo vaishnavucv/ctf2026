@@ -1,0 +1,6 @@
+{
+  "service": "freemedia",
+  "region": "lab-edge-01",
+  "status": "maintenance",
+  "assets": 10
+}

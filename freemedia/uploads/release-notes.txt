@@ -1,0 +1,5 @@
+# FreeMedia 2.4
+
+- Refreshed delivery dashboard
+- Added batch asset uploads
+- Improved thumbnail previews

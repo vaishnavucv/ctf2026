@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NimbusGrid Cloud</title>
+  <style>
+    :root { color-scheme: dark; --bg:#07111f; --panel:#0d1b2d; --line:#1c3550; --text:#edf6ff; --muted:#91a8bf; --blue:#58a6ff; --cyan:#42dfc8; }
+    * { box-sizing: border-box; }
+    body { margin:0; min-height:100vh; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:var(--text); background:radial-gradient(circle at 82% 5%,#123b62 0,transparent 34%),linear-gradient(145deg,#050b15,#081827 62%,#06101c); }
+    nav { height:72px; display:flex; align-items:center; justify-content:space-between; max-width:1160px; margin:auto; padding:0 28px; border-bottom:1px solid rgba(255,255,255,.07); }
+    .brand { display:flex; align-items:center; gap:12px; font-weight:750; letter-spacing:.2px; }
+    .logo { width:36px; height:36px; display:grid; place-items:center; border-radius:11px; color:#06101c; background:linear-gradient(135deg,var(--cyan),var(--blue)); box-shadow:0 8px 30px #2f9cff35; }
+    .links { display:flex; gap:26px; color:var(--muted); font-size:14px; }
+    main { max-width:1160px; margin:auto; padding:88px 28px 58px; display:grid; grid-template-columns:1.15fr .85fr; gap:66px; align-items:center; }
+    .eyebrow { color:var(--cyan); font-size:13px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; }
+    h1 { margin:18px 0 22px; font-size:clamp(44px,6vw,72px); line-height:1.02; letter-spacing:-2.8px; }
+    .lead { max-width:620px; margin:0 0 34px; color:#a9bbcd; font-size:19px; line-height:1.7; }
+    .actions { display:flex; gap:14px; }
+    .button { padding:13px 20px; border-radius:10px; font-weight:700; font-size:14px; border:1px solid var(--line); background:#0d1b2d; }
+    .primary { color:#06101c; border:0; background:linear-gradient(135deg,var(--cyan),#72b6ff); }
+    .console { border:1px solid var(--line); border-radius:18px; padding:22px; background:linear-gradient(160deg,rgba(15,33,54,.96),rgba(7,18,31,.96)); box-shadow:0 28px 75px #0008; }
+    .console-head { display:flex; align-items:center; justify-content:space-between; padding-bottom:18px; border-bottom:1px solid var(--line); }
+    .status { color:#69edb8; font-size:12px; font-weight:700; }
+    .metric { margin-top:18px; padding:18px; border:1px solid #18324c; border-radius:13px; background:#081522; }
+    .metric small { color:var(--muted); }
+    .metric strong { display:block; margin-top:7px; font-size:25px; }
+    .bar { height:7px; margin-top:14px; overflow:hidden; border-radius:99px; background:#182b3f; }
+    .bar span { display:block; width:68%; height:100%; border-radius:inherit; background:linear-gradient(90deg,var(--blue),var(--cyan)); }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:13px; margin-top:13px; }
+    footer { max-width:1160px; margin:auto; padding:24px 28px 38px; color:#688198; font-size:13px; }
+    @media (max-width:780px) { .links{display:none} main{grid-template-columns:1fr;padding-top:55px}.console{margin-top:8px} }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="brand"><span class="logo">N</span><span>NimbusGrid Cloud</span></div>
+    <div class="links"><span>Platform</span><span>Solutions</span><span>Developers</span><span>Status</span></div>
+  </nav>
+  <main>
+    <section>
+      <div class="eyebrow">Cloud infrastructure, simplified</div>
+      <h1>Build fast.<br>Scale calmly.</h1>
+      <p class="lead">Deploy applications, managed data services, and edge workloads on one dependable global platform.</p>
+      <div class="actions"><span class="button primary">Open console</span><span class="button">View documentation</span></div>
+    </section>
+    <aside class="console">
+      <div class="console-head"><strong>Platform overview</strong><span class="status">● ALL SYSTEMS OPERATIONAL</span></div>
+      <div class="metric"><small>Active workloads</small><strong>24</strong><div class="bar"><span></span></div></div>
+      <div class="grid">
+        <div class="metric"><small>Regions</small><strong>08</strong></div>
+        <div class="metric"><small>Uptime</small><strong>99.99%</strong></div>
+      </div>
+    </aside>
+  </main>
+  <footer>© 2026 NimbusGrid Systems · Infrastructure status: normal</footer>
+</body>
+</html>
