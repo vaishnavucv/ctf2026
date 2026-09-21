@@ -4,6 +4,30 @@
 
 This is one target container for the Ubuntu VM. The Kali container and per-student isolation in the attached plan are not built here. The CVE-2011-2523 backdoor is adapted for this CTF: it starts a shell as `vyshu` so students can complete a sudo privilege escalation step.
 
+## One isolated target per Kali VM
+
+Each student can run the complete target inside their own Kali VM. The installer detects Kali's `eth0` IPv4 address, installs Docker when needed, builds the target in `/opt/ctf2026-kali-lab`, binds the CTF ports to `eth0`, and configures the seeded PHP reverse shell to call back to that same address.
+
+For students who have SSH access to this private repository, the complete one-line installation is:
+
+```sh
+git clone git@github.com:vaishnavucv/ctf2026.git ~/ctf2026 && sudo bash ~/ctf2026/bootstrap-kali.sh
+```
+
+If you distribute the repository folder or an archive to the student, run this one command from inside it:
+
+```sh
+sudo bash bootstrap-kali.sh
+```
+
+If the repository is later made public, this HTTPS one-liner also works:
+
+```sh
+git clone --depth 1 https://github.com/vaishnavucv/ctf2026.git ~/ctf2026 && sudo bash ~/ctf2026/bootstrap-kali.sh
+```
+
+The script prints the detected target IP and ready-to-copy Nmap, Gobuster, listener, and Metasploit settings. Since students control root and Docker inside their own VM, this layout provides technical isolation between students but cannot prevent a student from inspecting their own container or image for answers.
+
 ## Fresh Ubuntu or EC2 bootstrap
 
 The bootstrap script installs Git and Docker, clones this repository, builds the image, waits for the container to become healthy, and prints the public attack IP and service URLs. This GitHub repository is private, so copy `bootstrap-ec2.sh` to the server first and provide either a GitHub SSH key or a temporary token that can read the repository.
