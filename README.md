@@ -6,15 +6,40 @@ This is one target container for the Ubuntu VM. The Kali container and per-stude
 
 ## One isolated target per Kali VM
 
-Each student can run the complete target inside their own Kali VM. The installer detects Kali's `eth0` IPv4 address, installs Docker when needed, builds the target in `/opt/ctf2026-kali-lab`, binds the CTF ports to `eth0`, and configures the seeded PHP reverse shell to call back to that same address.
+Each student can run the complete target inside their own Kali VM. The installer detects Kali's `eth0` IPv4 address, installs Docker when needed, clears anything already using the required ports, builds the target from the retained Git checkout, and configures the seeded PHP reverse shell to call back to that VM.
 
 The complete public HTTPS one-line installation is:
 
 ```sh
-git clone --depth 1 https://github.com/vaishnavucv/ctf2026.git ~/ctf2026 && sudo bash ~/ctf2026/bootstrap-kali.sh --remove-source
+git clone --depth 1 https://github.com/vaishnavucv/ctf2026.git ~/ctf2026 && sudo bash ~/ctf2026/bootstrap-kali.sh
 ```
 
-After the container passes its health check, `--remove-source` deletes the cloned `~/ctf2026` directory. The Docker image and running container remain available, and students scan and attack the `eth0` address printed by the installer.
+The `~/ctf2026` repository remains on the Kali VM. For later starts or a complete local reset, run:
+
+```sh
+cd ~/ctf2026 && sudo bash start-kali.sh
+```
+
+`start-kali.sh` removes old CTF containers, stops any container or process occupying TCP `2222`, `5678`, `6200`, `6379`, or `8080`, rebuilds the image, starts it, waits for a healthy result, and verifies the four initial service ports.
+
+The installer also writes three student-owned files before removing the clone:
+
+- `~/exploit.rc` contains the correct local `RHOSTS`, `LHOST`, and reverse Bash payload.
+- `~/run-ftp-exploit.sh` restarts only that student's container and launches Metasploit with a fresh backdoor listener.
+- `~/open-ftp-shell.sh` restarts the target, triggers the vulnerable FTP username, and connects directly to TCP 6200 without depending on a Metasploit payload or CPU architecture.
+
+After installation, students must attack the address printed by the installer, commonly `10.0.2.15` on VirtualBox NAT. When scanning Docker ports from the same Kali VM, use a TCP connect scan (`-sT`); raw SYN scans can incorrectly report the VM's own Docker-published ports as filtered:
+
+```sh
+sudo nmap -Pn -sT -sV -p2222,5678,6200,6379,8080 10.0.2.15
+~/run-ftp-exploit.sh
+```
+
+Every isolated NAT VM may show the same `10.0.2.15` address. Those addresses exist in separate virtual networks, so students do not share the same target. They should not use the previous classroom target `192.168.1.157`. If Metasploit differs across Kali builds, use the consistent direct-shell fallback:
+
+```sh
+~/open-ftp-shell.sh
+```
 
 If you distribute the repository folder or an archive to the student, run this one command from inside it:
 

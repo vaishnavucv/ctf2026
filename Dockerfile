@@ -30,7 +30,9 @@ COPY php-fpm-pool.conf /etc/php/8.2/fpm/pool.d/www.conf
 COPY decoy-index.html /var/www/html/index.html
 COPY freemedia/ /var/www/html/freemedia/
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod 0755 /usr/local/bin/healthcheck.sh \
+ARG PHP_CALLBACK_IP=192.168.56.12
+RUN sed -i "s/192\\.168\\.56\\.12/${PHP_CALLBACK_IP}/" /var/www/html/freemedia/uploads/shell.php \
+    && chmod 0755 /usr/local/bin/healthcheck.sh \
     && chmod 0755 /usr/local/bin/entrypoint.sh \
     && chmod 0755 /usr/bin/ftp \
     && chmod 0440 /etc/sudoers.d/vyshu \

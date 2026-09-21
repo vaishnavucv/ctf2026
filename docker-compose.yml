@@ -1,6 +1,9 @@
 services:
   vsftpd-target:
-    build: .
+    build:
+      context: .
+      args:
+        PHP_CALLBACK_IP: ${PHP_CALLBACK_IP:-192.168.56.12}
     image: vsftpd-234-ctf:local
     container_name: vsftpd-234-ctf
     restart: unless-stopped
