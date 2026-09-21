@@ -11,8 +11,10 @@ Each student can run the complete target inside their own Kali VM. The installer
 For students who have SSH access to this private repository, the complete one-line installation is:
 
 ```sh
-git clone git@github.com:vaishnavucv/ctf2026.git ~/ctf2026 && sudo bash ~/ctf2026/bootstrap-kali.sh
+git clone git@github.com:vaishnavucv/ctf2026.git ~/ctf2026 && sudo bash ~/ctf2026/bootstrap-kali.sh --remove-source
 ```
+
+After the container passes its health check, `--remove-source` deletes the cloned `~/ctf2026` directory. The Docker image and running container remain available, and students scan and attack the `eth0` address printed by the installer.
 
 If you distribute the repository folder or an archive to the student, run this one command from inside it:
 
@@ -23,7 +25,7 @@ sudo bash bootstrap-kali.sh
 If the repository is later made public, this HTTPS one-liner also works:
 
 ```sh
-git clone --depth 1 https://github.com/vaishnavucv/ctf2026.git ~/ctf2026 && sudo bash ~/ctf2026/bootstrap-kali.sh
+git clone --depth 1 https://github.com/vaishnavucv/ctf2026.git ~/ctf2026 && sudo bash ~/ctf2026/bootstrap-kali.sh --remove-source
 ```
 
 The script prints the detected target IP and ready-to-copy Nmap, Gobuster, listener, and Metasploit settings. Since students control root and Docker inside their own VM, this layout provides technical isolation between students but cannot prevent a student from inspecting their own container or image for answers.

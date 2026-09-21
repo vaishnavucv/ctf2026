@@ -5,6 +5,16 @@ REPO_URL="${REPO_URL:-https://github.com/vaishnavucv/ctf2026.git}"
 SOURCE_DIR=""
 RUNTIME_DIR="${RUNTIME_DIR:-/opt/ctf2026-kali-lab}"
 CTF_PORTS=(2222 5678 6200 6379 8080)
+REMOVE_SOURCE=0
+
+if [[ ${1:-} == "--remove-source" ]]; then
+  REMOVE_SOURCE=1
+  shift
+fi
+if [[ $# -ne 0 ]]; then
+  echo "Usage: sudo bash bootstrap-kali.sh [--remove-source]" >&2
+  exit 2
+fi
 
 log() {
   printf '\n[%s] %s\n' "$(date +'%H:%M:%S')" "$*"
@@ -119,6 +129,15 @@ if [[ -n ${SUDO_USER:-} && ${SUDO_USER} != root ]]; then
   usermod -aG docker "${SUDO_USER}" || true
 fi
 
+if [[ ${REMOVE_SOURCE} -eq 1 ]]; then
+  if [[ ${SOURCE_DIR} == "/" || ${SOURCE_DIR} == "${RUNTIME_DIR}" || ! -d "${SOURCE_DIR}/.git" ]]; then
+    echo "Refusing to remove an unsafe or unverified source directory: ${SOURCE_DIR}" >&2
+    exit 1
+  fi
+  log "Removing the cloned source repository after the successful build"
+  rm -rf -- "${SOURCE_DIR}"
+fi
+
 "${COMPOSE[@]}" ps
 cat <<EOF
 
@@ -143,5 +162,5 @@ Metasploit uses the same address for both sides:
   RHOSTS=${TARGET_IP}  RPORT=5678  LHOST=${TARGET_IP}
 
 TCP 6200 is closed until the FTP backdoor is triggered.
-Re-run this installer to reset the complete local target.
+Restart the target with: sudo docker restart vsftpd-234-ctf
 EOF
