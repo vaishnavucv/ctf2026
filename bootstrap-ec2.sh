@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-REPO_URL="${REPO_URL:-git@github.com:vaishnavucv/ctf2026.git}"
+REPO_URL="${REPO_URL:-https://github.com/vaishnavucv/ctf2026.git}"
 REPO_HTTPS_URL="${REPO_HTTPS_URL:-https://github.com/vaishnavucv/ctf2026.git}"
 INSTALL_DIR="${INSTALL_DIR:-/opt/ctf2026}"
 CTF_PORTS=(2222 5678 6200 6379 8080)

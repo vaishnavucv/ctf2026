@@ -8,10 +8,10 @@ This is one target container for the Ubuntu VM. The Kali container and per-stude
 
 Each student can run the complete target inside their own Kali VM. The installer detects Kali's `eth0` IPv4 address, installs Docker when needed, builds the target in `/opt/ctf2026-kali-lab`, binds the CTF ports to `eth0`, and configures the seeded PHP reverse shell to call back to that same address.
 
-For students who have SSH access to this private repository, the complete one-line installation is:
+The complete public HTTPS one-line installation is:
 
 ```sh
-git clone git@github.com:vaishnavucv/ctf2026.git ~/ctf2026 && sudo bash ~/ctf2026/bootstrap-kali.sh --remove-source
+git clone --depth 1 https://github.com/vaishnavucv/ctf2026.git ~/ctf2026 && sudo bash ~/ctf2026/bootstrap-kali.sh --remove-source
 ```
 
 After the container passes its health check, `--remove-source` deletes the cloned `~/ctf2026` directory. The Docker image and running container remain available, and students scan and attack the `eth0` address printed by the installer.
@@ -22,31 +22,22 @@ If you distribute the repository folder or an archive to the student, run this o
 sudo bash bootstrap-kali.sh
 ```
 
-If the repository is later made public, this HTTPS one-liner also works:
-
-```sh
-git clone --depth 1 https://github.com/vaishnavucv/ctf2026.git ~/ctf2026 && sudo bash ~/ctf2026/bootstrap-kali.sh --remove-source
-```
-
 The script prints the detected target IP and ready-to-copy Nmap, Gobuster, listener, and Metasploit settings. Since students control root and Docker inside their own VM, this layout provides technical isolation between students but cannot prevent a student from inspecting their own container or image for answers.
 
 ## Fresh Ubuntu or EC2 bootstrap
 
-The bootstrap script installs Git and Docker, clones this repository, builds the image, waits for the container to become healthy, and prints the public attack IP and service URLs. This GitHub repository is private, so copy `bootstrap-ec2.sh` to the server first and provide either a GitHub SSH key or a temporary token that can read the repository.
+The bootstrap script installs Git and Docker, clones this public repository over HTTPS, builds the image, waits for the container to become healthy, and prints the public attack IP and service URLs. Copy `bootstrap-ec2.sh` to the server and run it:
 
 ```sh
 scp bootstrap-ec2.sh <ubuntu-host>:/tmp/bootstrap-ec2.sh
 sudo bash /tmp/bootstrap-ec2.sh
 ```
 
-For a token-authenticated private clone and optional SSH password user, pass the secrets at runtime. They are not written to the repository or its Git remote:
+To provision an optional SSH password user, pass the credentials at runtime. They are not written to the repository or its Git remote:
 
 ```sh
-read -rsp 'GitHub token: ' GITHUB_TOKEN; echo
-sudo env GITHUB_TOKEN="$GITHUB_TOKEN" \
-  CTF_SSH_USER='<username>' CTF_SSH_PASSWORD='<password>' \
+sudo env CTF_SSH_USER='<username>' CTF_SSH_PASSWORD='<password>' \
   bash /tmp/bootstrap-ec2.sh
-unset GITHUB_TOKEN
 ```
 
 For a public EC2 classroom target, its security group must allow inbound TCP `22`, `2222`, `5678`, `6200`, `6379`, and `8080` from the intended student source range. Using `0.0.0.0/0` makes every service internet-accessible. The bootstrap configures UFW when it is already active, but AWS security group rules must be configured in AWS.
